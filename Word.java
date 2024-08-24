@@ -1,6 +1,7 @@
 package test;
 
 import java.lang.reflect.Array;
+import java.util.Arrays;
 import java.util.Objects;
 
 public class Word {
@@ -10,8 +11,7 @@ public class Word {
     private final int column;
     private final boolean vertical;
 
-
-    private Word(Tiles[] tiles, int row, int column, boolean vertical)
+    public Word(Tile[] tiles, int row, int column, boolean vertical)// Tiles[]
     {
         this.tiles = tiles;
         this.row = row;
@@ -19,48 +19,44 @@ public class Word {
         this.vertical = vertical;
     }
 
-    public Tile[] getTiles() 
-    {
+    public Tile[] getTiles() {
         return tiles;
     }
 
-    public int getColumn() 
-    {
+    public int getColumn() {
         return column;
     }
 
-    public int getRow()
-    {
+    public int getRow() {
         return row;
     }
 
-    public boolean isVertical() 
-    {
+    public boolean isVertical() {
         return vertical;
     }
 
+    // isOrigintal
 
     @Override
-    public boolean equals(Obj o)
-    {
+    public boolean equals(Object w) {
 
-        if(this==o)
+        if (this == w)
             return true;
 
-        if( o == null || this.getClass() != o.getClass() )
+        if (w == null || this.getClass() != w.getClass())
             return false;
 
-        Word word = (Word) w; //casting from o to class Tile
-        return ( this.row == word.row && this.column == word.column && this.vertical == word.vertical && Array.equals(tiles,word.tiles) ) ;
+        Word word = (Word) w; // casting from o to class Tile
+        return (this.row == word.row && this.column == word.column && this.vertical == word.vertical
+                && Arrays.equals(tiles, word.tiles));// Array
 
     }
 
-    
     @Override
-    public int hashCode()
-    {
-        int result = Objects.hash(row,column,vertical);
-        result = (31 * result) + Array.hashCode(tiles); //multipie by a high prime num (Optimization of scatters in a hash code)
+    public int hashCode() {
+        int result = Objects.hash(row, column, vertical);
+        result = (31 * result) + Arrays.hashCode(tiles); // multipie by a high prime num (Optimization of scatters in a
+                                                         // hash code) //Array
         return result;
     }
 }
