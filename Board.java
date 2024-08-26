@@ -287,32 +287,121 @@ public class Board {
 
         int totalScore = 0;
         for (Word w : newWords) {
-            int score = getScore(w);
-            totalScore += score;
+            totalScore += getScore(w);
         }
 
-        placeWordOnBoard(word);
+        placeWord(word);
 
         return totalScore;
     }
 
-    public void placeWordOnBoard(Word word) {
-        Tile[] wordTiles = word.getTiles();
+    // public void placeWord(Word word) {
+    // Tile[] tiles = word.getTiles();
+    // int startRow = word.getRow();
+    // int startCol = word.getColumn();
+    // boolean isVertical = word.isVertical();
+
+    // for (int i = 0; i < tiles.length; i++) {
+    // int row = isVertical ? startRow + i : startRow;
+    // int column = isVertical ? startCol : startCol + i;
+
+    // if( row < 0 || row >= SIZE || column < 0 || column >= SIZE )
+    // return;
+
+    // Tile currenTile = board[row][column];
+    // Tile newTile = tiles[i];
+
+    // if(newTile == null)
+    // continue;
+
+    // if(currenTile == null)
+    // {
+    // if(newTile.getTileLetter() != '_')
+    // board[row][column] = newTile;
+    // }
+    // else
+    // {
+    // if(newTile.getTileLetter() == '_')
+    // continue;
+
+    // if(!currenTile.equals(newTile))
+    // throw new IllegalArgumentException("Invalid placement: existing tile does not
+    // match.");
+    // }
+    // }
+    // printBoard();
+    // }
+
+    public void placeWord(Word word) {
+        Tile[] tiles = word.getTiles();
         int startRow = word.getRow();
         int startCol = word.getColumn();
         boolean isVertical = word.isVertical();
 
-        for (int i = 0; i < wordTiles.length; i++) {
+        // הדפסת הלוח לפני השמת המילה
+        System.out.println("Before placing word:");
+        printBoard();
+
+        // תהליך הנחת המילה
+        for (int i = 0; i < tiles.length; i++) {
             int row = isVertical ? startRow + i : startRow;
             int column = isVertical ? startCol : startCol + i;
 
-            if (board[row][column] == null)
-                board[row][column] = wordTiles[i];
+            if (row < 0 || row >= SIZE || column < 0 || column >= SIZE) {
+                System.out.println("Out of bounds: (" + row + ", " + column + ")");
+                return; // מחוץ לטווח הלוח
+            }
 
-            else if (!board[row][column].equals(wordTiles[i]))
-                throw new IllegalArgumentException("Invalid placement: existing tile does not match.");
+            Tile currentTile = board[row][column];
+            Tile newTile = tiles[i];
+
+            System.out.println("Processing tile: " + (newTile == null ? "null" : newTile.getTileLetter()) +
+                    " at position: (" + row + ", " + column + ")");
+
+            if (newTile == null) {
+                continue; // אין צורך לטפל באריח ריק
+            }
+
+            if (currentTile == null) {
+                // במקרה של תא ריק, הנח את האריח החדש בתנאי שהוא לא תו `_`
+                if (newTile.getTileLetter() != '_') {
+                    board[row][column] = newTile;
+                    System.out.println("Placing new tile: " + newTile.getTileLetter() +
+                            " at position: (" + row + ", " + column + ")");
+                }
+            } else {
+                if (newTile.getTileLetter() == '_') {
+                    continue; // תו `_` יכול להיות כל תו חוקי
+                }
+
+                // בדוק אם האריחים תואמים, אחרת זרוק שגיאה
+                if (!currentTile.equals(newTile)) {
+                    System.out.println("Mismatch found: existing tile is " + currentTile.getTileLetter() +
+                            ", trying to place " + newTile.getTileLetter());
+                    throw new IllegalArgumentException("Invalid placement: existing tile does not match.");
+                }
+            }
         }
+
+        // הדפסת הלוח אחרי השמת המילה
+        System.out.println("After placing word:");
+        printBoard();
     }
 
     ////////////////////////////////////////////////////////////////// end
+
+    // print the board for check
+
+    public void printBoard() {
+        for (int i = 0; i < SIZE; i++) {
+            for (int j = 0; j < SIZE; j++) {
+                if (board[i][j] != null)
+                    System.out.print(board[i][j].getTileLetter() + " ");
+                else
+                    System.out.print(". ");
+            }
+            System.out.println();
+        }
+    }
+
 }

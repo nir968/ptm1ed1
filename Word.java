@@ -45,9 +45,8 @@ public class Word {
         if (w == null || this.getClass() != w.getClass())
             return false;
 
-        Word word = (Word) w; // casting from o to class Tile
-        return (this.row == word.row && this.column == word.column && this.vertical == word.vertical
-                && Arrays.equals(tiles, word.tiles));// Array
+        Word word = (Word) w; // casting from w to class Word
+        return (this.row == word.row && this.column == word.column && this.vertical == word.vertical && Arrays.equals(this.tiles, word.tiles));// Array
 
     }
 
