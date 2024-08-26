@@ -4,6 +4,7 @@ package test;
 //horizontal = אופקי
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Objects;
 
 public class Board {
@@ -34,8 +35,8 @@ public class Board {
         }
         return copy;
     }
+
     //////////////////////////////////////////////////////////////////////////////////////// boardLegal()
-    //////////////////////////////////////////////////////////////////////////////////////// function
 
     public boolean isBoardEmpty() // the board is empty?
     {
@@ -50,6 +51,7 @@ public class Board {
     }
 
     public boolean boardLegal(Word word) {
+
         Tile[] wordTiles = word.getTiles();
         int startRow = word.getRow();
         int startCol = word.getColumn();
@@ -94,10 +96,11 @@ public class Board {
 
         return true;
     }
+
     //////////////////////////////////////////////////////////////////////////////////////// end
 
     //////////////////////////////////////////////////////////////////////////////////////// getWords()
-    //////////////////////////////////////////////////////////////////////////////////////// functions
+
     public ArrayList<Word> getWords(Word word) {
         ArrayList<Word> words = new ArrayList<>();
         words.add(word);
@@ -138,17 +141,19 @@ public class Board {
 
         while (startCol >= 0 && board[row][startCol] != null) {
             tiles.add(0, board[row][startCol]);
+
             startCol--; // while..
         }
 
         startCol = column + 1;
         while (startCol < SIZE && board[row][startCol] != null) {
             tiles.add(board[row][startCol]);
+
             startCol++; // while
         }
 
         if (tiles.size() > 1) {
-            Tile[] tilesArray = tiles.toArray(new Tile[0]);
+            Tile[] tilesArray = tiles.toArray(new Tile[0]); // convert arrayList to array
             return new Word(tilesArray, row, column, false);
         } else
             return null;
@@ -172,7 +177,7 @@ public class Board {
         }
 
         if (tiles.size() > 1) {
-            Tile[] tilesArray = tiles.toArray(new Tile[0]);
+            Tile[] tilesArray = tiles.toArray(new Tile[0]); // convert arrayList to array
             return new Word(tilesArray, row, column, true);
         } else
             return null;
@@ -181,14 +186,14 @@ public class Board {
     private boolean isValidWord(Word word) {
         return (dictionaryLegal(word));
     }
-    //////////////////////////////////////////////////////////////////////////////////////// end
+    ////////////////////////////////////////////////////////////////// end
 
     public boolean dictionaryLegal(Word word) {
         return true;
     }
 
     ///////////////////////////////////////////////////////////////////////////////// getScore()
-    //////////////////////////////////////////////////////////////////////////////////////// functions
+
     public int getScore(Word word) {
         int wordMulti = 1;
         int totalScore = 0;
@@ -206,7 +211,7 @@ public class Board {
             if (tile == null)
                 continue;// to the next iteration
 
-            int letterScore = tile.getScore();
+            int letterScore = tile.getTileScore();
             String squareType = getSquareType(row, column);
 
             switch (squareType) {
@@ -261,25 +266,29 @@ public class Board {
 
         return "";
     }
-    //////////////////////////////////////////////////////////////////////////////////////// end
+    ////////////////////////////////////////////////////////////////// end
 
-    //////////////////////////////////////////////////////////////////////////////////////// tryPlaceWord()
-    //////////////////////////////////////////////////////////////////////////////////////// function
+    ////////////////////////////////////////////////////////////////// tryPlaceWord()
     public int tryPlaceWord(Word word) {
 
-        if (!boardLegal(word))
-            return 0;
+        if (!boardLegal(word)) {
 
-        ArrayList<Word> newWords = getNewWords(word);
+            return 0;
+        }
+
+        ArrayList<Word> newWords = getWords(word);
 
         for (Word w : newWords) {
-            if (!dictionaryLegal(w))
+            if (!dictionaryLegal(w)) {
+
                 return 0;
+            }
         }
 
         int totalScore = 0;
         for (Word w : newWords) {
-            totalScore += getScore(w);
+            int score = getScore(w);
+            totalScore += score;
         }
 
         placeWordOnBoard(word);
@@ -305,22 +314,5 @@ public class Board {
         }
     }
 
-    public ArrayList<Word> getNewWords(Word word) {
-        ArrayList<Word> newWords = new ArrayList<>();
-        newWords.add(word);
-
-        Tile[] wordTiles = word.getTiles();
-        int startRow = word.getRow();
-        int startCol = word.getColumn();
-        boolean isVertical = word.isVertical();
-
-        for (int i = 0; i < wordTiles.length; i++) {
-            int row = isVertical ? startRow + i : startRow;
-            int column = isVertical ? startCol : startCol + i;
-
-            checkForNewWord(row, column, isVertical, newWords);
-        }
-        return newWords;
-    }
-    //////////////////////////////////////////////////////////////////////////////////////// end
+    ////////////////////////////////////////////////////////////////// end
 }

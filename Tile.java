@@ -20,14 +20,15 @@ public class Tile {
         this.score = score;
     }
 
-    public int getScore() {
+    public int getTileScore() {
         return score;
     }
 
-    public char getLetter() {
+    public char getTileLetter() {
         return letter;
     }
 
+    ////////////////////////////////////////////////equals
     @Override
     public boolean equals(Object o) {
         if (this == o)
@@ -40,6 +41,7 @@ public class Tile {
         return (this.letter == tile.letter && this.score == tile.score);
     }
 
+    ////////////////////////////////////////////////hashCode
     @Override
     public int hashCode() {
         return Objects.hash(letter, score);
@@ -94,7 +96,7 @@ public class Tile {
             do {
                 randomIndex = random.nextInt(tiles.length);
                 randomTile = tiles[randomIndex];
-            } while (tileCounts[randomTile.getLetter() - 'A'] == 0);
+            } while (tileCounts[randomTile.getTileLetter() - 'A'] == 0);
 
             int index = randomTile.letter - 'A';
 

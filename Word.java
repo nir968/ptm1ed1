@@ -35,8 +35,7 @@ public class Word {
         return vertical;
     }
 
-    // isOrigintal
-
+    ////////////////////////////////////////////////equals
     @Override
     public boolean equals(Object w) {
 
@@ -52,6 +51,7 @@ public class Word {
 
     }
 
+    ////////////////////////////////////////////////hashCode
     @Override
     public int hashCode() {
         int result = Objects.hash(row, column, vertical);
