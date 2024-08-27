@@ -35,7 +35,6 @@ public class Word {
         return vertical;
     }
 
-    ////////////////////////////////////////////////equals
     @Override
     public boolean equals(Object w) {
 
@@ -45,12 +44,12 @@ public class Word {
         if (w == null || this.getClass() != w.getClass())
             return false;
 
-        Word word = (Word) w; // casting from w to class Word
-        return (this.row == word.row && this.column == word.column && this.vertical == word.vertical && Arrays.equals(this.tiles, word.tiles));// Array
+        Word word = (Word) w; // casting from o to class Tile
+        return (this.row == word.row && this.column == word.column && this.vertical == word.vertical
+                && Arrays.equals(tiles, word.tiles));// Array
 
     }
 
-    ////////////////////////////////////////////////hashCode
     @Override
     public int hashCode() {
         int result = Objects.hash(row, column, vertical);
@@ -58,4 +57,18 @@ public class Word {
                                                          // hash code) //Array
         return result;
     }
+
+    @Override
+    public String toString() {
+        String result = "";
+        for (Tile t : tiles) {
+            if (t == null) {
+                result += '_';
+            } else {
+                result += t.letter;
+            }
+        }
+        return result;
+    }
+
 }

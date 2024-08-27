@@ -20,15 +20,14 @@ public class Tile {
         this.score = score;
     }
 
-    public int getTileScore() {
+    public int getScore() {
         return score;
     }
 
-    public char getTileLetter() {
+    public char getLetter() {
         return letter;
     }
 
-    ////////////////////////////////////////////////equals
     @Override
     public boolean equals(Object o) {
         if (this == o)
@@ -41,7 +40,6 @@ public class Tile {
         return (this.letter == tile.letter && this.score == tile.score);
     }
 
-    ////////////////////////////////////////////////hashCode
     @Override
     public int hashCode() {
         return Objects.hash(letter, score);
@@ -62,7 +60,7 @@ public class Tile {
             initialCounts = new int[] { 9, 2, 2, 4, 12, 2, 3, 2, 9, 1, 1, 4, 2, 6, 8, 2, 1, 6, 4, 6, 4, 2, 2, 1, 2, 1 };
             tileCounts = initialCounts.clone();
 
-            char[] letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray();
+            char[] letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray();// shorter
             int[] scores = { 1, 3, 3, 2, 1, 4, 2, 4, 1, 8, 5, 1, 3, 1, 1, 3, 10, 1, 1, 1, 1, 4, 4, 8, 4, 10 };
 
             tiles = new Tile[initialCounts.length];
@@ -96,7 +94,7 @@ public class Tile {
             do {
                 randomIndex = random.nextInt(tiles.length);
                 randomTile = tiles[randomIndex];
-            } while (tileCounts[randomTile.getTileLetter() - 'A'] == 0);
+            } while (tileCounts[randomTile.getLetter() - 'A'] == 0);
 
             int index = randomTile.letter - 'A';
 
@@ -106,8 +104,7 @@ public class Tile {
             return randomTile;
         }
 
-        public Tile getTile(char letter) 
-        {
+        public Tile getTile(char letter) {
             int index = letter - 'A';
 
             if (index < 0 || index > 25 || tileCounts[index] == 0)
@@ -120,7 +117,7 @@ public class Tile {
 
         public void put(Tile tile) {
             int index = tile.letter - 'A';
- 
+
             if (tileCounts[index] < initialCounts[index]) {
                 tileCounts[index]++;
                 totalTiles++;
